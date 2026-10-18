@@ -185,7 +185,7 @@ initPage(PageComponent);
 );
 
 const htmlPlugins = pageFiles.map((page) => {
-  const pageTitle = `${page.name.charAt(0).toUpperCase() + page.name.slice(1)} - App`;
+  const pageTitle = '宠你奇怪 · 今天你是什么状态';
   return new rspack.HtmlRspackPlugin({
     template: './src/template.html',
     filename: `${page.name}.html`,
@@ -881,6 +881,11 @@ export default defineConfig({
       {
         test: /\.(png|jpe?g|gif|svg|webp)$/i,
         type: 'asset',
+      },
+      {
+        // Inline the pet model so the prototype stays a single self-contained HTML file.
+        test: /\.(glb|gltf)$/i,
+        type: 'asset/inline',
       },
     ],
   },

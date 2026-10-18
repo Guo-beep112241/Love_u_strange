@@ -1,38 +1,58 @@
 import { useEffect, useRef } from 'react';
 
+const INTERACTIVE_SELECTOR =
+  'button, a, input, textarea, select, label, [role="button"], [data-no-swipe]';
+
 export function useSwipeGesture(onSwipeLeft: () => void, onSwipeRight: () => void) {
-  const touchStart = useRef({ x: 0, y: 0 });
+  const touchStart = useRef({ x: 0, y: 0, active: false });
 
   useEffect(() => {
-    const handleTouchStart = (e: TouchEvent) => {
+    const handleTouchStart = (event: TouchEvent) => {
+      const target = event.target as HTMLElement | null;
+      if (target?.closest?.(INTERACTIVE_SELECTOR)) {
+        touchStart.current.active = false;
+        return;
+      }
+      const touch = event.touches[0];
+      if (!touch) return;
       touchStart.current = {
-        x: e.touches[0].clientX,
-        y: e.touches[0].clientY
+        x: touch.clientX,
+        y: touch.clientY,
+        active: true,
       };
     };
 
-    const handleTouchEnd = (e: TouchEvent) => {
-      const touchEndX = e.changedTouches[0].clientX;
-      const touchEndY = e.changedTouches[0].clientY;
-      
-      const deltaX = touchStart.current.x - touchEndX;
-      const deltaY = Math.abs(touchStart.current.y - touchEndY);
+    const handleTouchEnd = (event: TouchEvent) => {
+      if (!touchStart.current.active) return;
+      touchStart.current.active = false;
+
+      const touch = event.changedTouches[0];
+      if (!touch) return;
+
+      const deltaX = touchStart.current.x - touch.clientX;
+      const deltaY = Math.abs(touchStart.current.y - touch.clientY);
 
       if (deltaY < 50) {
         if (deltaX > 60) {
-          onSwipeLeft(); 
+          onSwipeLeft();
         } else if (deltaX < -60) {
-          onSwipeRight(); 
+          onSwipeRight();
         }
       }
     };
 
-    window.addEventListener('touchstart', handleTouchStart);
-    window.addEventListener('touchend', handleTouchEnd);
+    const handleTouchCancel = () => {
+      touchStart.current.active = false;
+    };
+
+    window.addEventListener('touchstart', handleTouchStart, { passive: true });
+    window.addEventListener('touchend', handleTouchEnd, { passive: true });
+    window.addEventListener('touchcancel', handleTouchCancel, { passive: true });
 
     return () => {
       window.removeEventListener('touchstart', handleTouchStart);
       window.removeEventListener('touchend', handleTouchEnd);
+      window.removeEventListener('touchcancel', handleTouchCancel);
     };
   }, [onSwipeLeft, onSwipeRight]);
 }

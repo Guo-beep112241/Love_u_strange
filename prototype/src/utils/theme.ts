@@ -37,3 +37,15 @@ export const MOOD_CONFIG = {
 } as const;
 
 export type MoodId = keyof typeof MOOD_CONFIG;
+
+export const MOOD_ORDER: MoodId[] = ['lie', 'crazy', 'slump', 'breakdown', 'speechless'];
+
+export const DEFAULT_MOOD: MoodId = 'slump';
+
+export function isMoodId(value: unknown): value is MoodId {
+  return typeof value === 'string' && Object.prototype.hasOwnProperty.call(MOOD_CONFIG, value);
+}
+
+export function getMoodConfig(value: unknown) {
+  return MOOD_CONFIG[isMoodId(value) ? value : DEFAULT_MOOD];
+}

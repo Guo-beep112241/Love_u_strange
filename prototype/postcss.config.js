@@ -12,7 +12,9 @@ const replaceSafeAreaEnv = (value) =>
 const safeAreaEnvRewritePlugin = {
   postcssPlugin: 'safe-area-env-rewrite',
   Declaration(decl) {
-    if (!decl.value || !decl.value.includes('safe-area-inset-')) {
+    // Never rewrite the custom-property definitions themselves, otherwise
+    // `--safe-area-inset-top: env(...)` becomes a self-referential variable.
+    if (!decl.value || decl.prop.startsWith('--') || !decl.value.includes('safe-area-inset-')) {
       return;
     }
     decl.value = replaceSafeAreaEnv(decl.value);

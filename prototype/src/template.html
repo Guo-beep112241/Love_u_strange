@@ -1,10 +1,24 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title><% if (title) { %><%= title %><% } else { %>App<% } %></title>
-  <script src="https://unpkg.com/lucide@latest"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#0a0a0f">
+  <meta name="color-scheme" content="dark">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="宠你奇怪">
+  <meta name="format-detection" content="telephone=no">
+  <meta name="description" content="宠你奇怪 · 一只反映你今天情绪的 3D 丑萌宠物，随时生成可分享的情绪贴纸。">
+  <meta property="og:title" content="宠你奇怪 · 今天你是什么状态">
+  <meta property="og:description" content="选一个情绪，戳一戳它，生成一张能发出去的表情贴纸。">
+  <meta property="og:type" content="website">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%230a0a0f'/%3E%3Ccircle cx='16' cy='17' r='9' fill='%23a8ff3e'/%3E%3Ccircle cx='13' cy='15' r='1.5' fill='%230a0a0f'/%3E%3Ccircle cx='19' cy='15' r='1.5' fill='%230a0a0f'/%3E%3C/svg%3E">
+  <title><% if (title) { %><%= title %><% } else { %>宠你奇怪<% } %></title>
+  <style>
+    html, body { margin: 0; background: #0a0a0f; }
+    body { overscroll-behavior-y: none; }
+  </style>
 </head>
 <body>
   <div id="root"></div>

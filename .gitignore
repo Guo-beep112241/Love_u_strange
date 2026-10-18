@@ -1,0 +1,9 @@
+node_modules/
+.pnpm-store/
+prototype/dist/
+prototype/.temp-entries/
+.DS_Store
+*.local
+.env
+.env.*
+supabase/.temp/

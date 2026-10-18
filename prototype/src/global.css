@@ -2,6 +2,56 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  /* Safe-area tokens. viewport-fit=cover is required for these to be non-zero. */
+  --safe-area-inset-top: env(safe-area-inset-top, 0px);
+  --safe-area-inset-right: env(safe-area-inset-right, 0px);
+  --safe-area-inset-bottom: env(safe-area-inset-bottom, 0px);
+  --safe-area-inset-left: env(safe-area-inset-left, 0px);
+
+  /* Motion tokens for the squishy interactions */
+  --ease-spring: cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  --duration-fast: 150ms;
+  --duration-normal: 300ms;
+
+  /* Runtime mood palette; overridden on the page root. */
+  --mood-color: #4a4a4a;
+  --mood-emissive: #7b2fff;
+}
+
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+    background: #0a0a0f;
+  }
+
+  html,
+  body,
+  #root {
+    min-height: 100%;
+  }
+
+  body {
+    margin: 0;
+    overflow-x: hidden;
+    background: hsl(var(--color-surface-base, 240 20% 5%));
+    color: hsl(var(--color-text-primary, 0 0% 100%));
+    overscroll-behavior-y: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  #root {
+    min-height: 100vh;
+    min-height: 100dvh;
+  }
+
+  ::selection {
+    background: #a8ff3e;
+    color: #0a0a0f;
+  }
+}
+
 @layer utilities {
   .no-scrollbar::-webkit-scrollbar {
     display: none;
@@ -10,11 +60,764 @@
     -ms-overflow-style: none;
     scrollbar-width: none;
   }
+  .pt-safe {
+    padding-top: var(--safe-area-inset-top);
+  }
+  .pb-safe {
+    padding-bottom: var(--safe-area-inset-bottom);
+  }
+  .px-safe {
+    padding-left: var(--safe-area-inset-left);
+    padding-right: var(--safe-area-inset-right);
+  }
 }
 
-:root {
-  /* Motion tokens for the squishy interactions */
-  --ease-spring: cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  --duration-fast: 150ms;
-  --duration-normal: 300ms;
+/* ------------------------------------------------------------------ *
+ * Stage / atmosphere
+ * ------------------------------------------------------------------ */
+
+.fx-stage {
+  background:
+    radial-gradient(ellipse at 50% 38%, rgba(168, 255, 62, 0.08), transparent 52%),
+    radial-gradient(ellipse at 82% 18%, rgba(123, 47, 255, 0.12), transparent 46%),
+    radial-gradient(ellipse at 14% 82%, rgba(255, 77, 196, 0.08), transparent 48%),
+    #0a0a0f;
+}
+
+.fx-aurora {
+  position: absolute;
+  top: 8%;
+  left: 18%;
+  width: 64%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 40% 40%, var(--mood-emissive), transparent 63%),
+    radial-gradient(circle at 62% 58%, #ff4dc4, transparent 62%);
+  filter: blur(58px);
+  opacity: 0.3;
+  mix-blend-mode: screen;
+  animation: fx-drift 9s ease-in-out infinite;
+  will-change: transform, opacity;
+}
+
+.fx-aurora-2 {
+  position: absolute;
+  right: -14%;
+  bottom: 6%;
+  width: 52%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: radial-gradient(circle, var(--mood-emissive), transparent 65%);
+  filter: blur(52px);
+  opacity: 0.22;
+  mix-blend-mode: screen;
+  animation: fx-drift 12s ease-in-out infinite reverse;
+}
+
+.fx-grid {
+  position: absolute;
+  inset: -30%;
+  background-image:
+    linear-gradient(to right, rgba(168, 255, 62, 0.22) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(168, 255, 62, 0.18) 1px, transparent 1px);
+  background-size: 46px 46px;
+  opacity: 0.18;
+  mask-image: radial-gradient(circle at 50% 44%, black 0%, transparent 64%);
+  -webkit-mask-image: radial-gradient(circle at 50% 44%, black 0%, transparent 64%);
+  animation: fx-grid-move 14s linear infinite;
+}
+
+.fx-orbits {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+}
+
+.fx-ring {
+  position: absolute;
+  width: 56%;
+  max-width: 300px;
+  aspect-ratio: 1;
+  border: 1px solid var(--mood-emissive);
+  border-radius: 50%;
+  opacity: 0.28;
+  box-shadow:
+    0 0 18px color-mix(in srgb, var(--mood-emissive) 45%, transparent),
+    inset 0 0 18px color-mix(in srgb, var(--mood-emissive) 20%, transparent);
+  animation: fx-spin 24s linear infinite;
+}
+
+.fx-ring::before {
+  content: '';
+  position: absolute;
+  top: -3px;
+  left: 50%;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--mood-emissive);
+  box-shadow: 0 0 20px var(--mood-emissive);
+}
+
+.fx-ring-2 {
+  width: 78%;
+  max-width: 390px;
+  opacity: 0.16;
+  animation-duration: 38s;
+  animation-direction: reverse;
+}
+
+.fx-ring-3 {
+  width: 38%;
+  max-width: 210px;
+  opacity: 0.4;
+  animation-duration: 16s;
+  border-style: dashed;
+}
+
+.fx-particle {
+  position: absolute;
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: var(--mood-emissive);
+  box-shadow: 0 0 10px var(--mood-emissive), 0 0 24px var(--mood-emissive);
+  opacity: 0.7;
+  animation: fx-float 5s ease-in-out infinite;
+  will-change: transform, opacity;
+}
+
+.fx-vignette {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 50% 44%, transparent 38%, rgba(0, 0, 0, 0.68) 100%);
+}
+
+.fx-scanlines {
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0.04) 0px,
+    rgba(255, 255, 255, 0.04) 1px,
+    transparent 1px,
+    transparent 4px
+  );
+  opacity: 0.55;
+  mix-blend-mode: screen;
+  animation: fx-scan 7s linear infinite;
+}
+
+.fx-corner {
+  position: absolute;
+  width: 26px;
+  height: 26px;
+  border-color: var(--mood-emissive);
+  opacity: 0.55;
+}
+.fx-corner-tl {
+  top: 12px;
+  left: 12px;
+  border-top: 1px solid;
+  border-left: 1px solid;
+}
+.fx-corner-tr {
+  top: 12px;
+  right: 12px;
+  border-top: 1px solid;
+  border-right: 1px solid;
+}
+.fx-corner-bl {
+  bottom: 12px;
+  left: 12px;
+  border-bottom: 1px solid;
+  border-left: 1px solid;
+}
+.fx-corner-br {
+  bottom: 12px;
+  right: 12px;
+  border-bottom: 1px solid;
+  border-right: 1px solid;
+}
+
+.fx-crazy {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  pointer-events: none;
+  background:
+    repeating-linear-gradient(
+      92deg,
+      rgba(255, 0, 85, 0.16) 0px,
+      rgba(255, 0, 85, 0.16) 2px,
+      transparent 2px,
+      transparent 7px
+    ),
+    radial-gradient(circle at 28% 38%, rgba(255, 0, 85, 0.48), transparent 45%),
+    radial-gradient(circle at 72% 62%, rgba(168, 255, 62, 0.42), transparent 45%);
+  mix-blend-mode: screen;
+  transition: opacity 120ms linear;
+}
+
+.fx-crazy.is-on {
+  opacity: 0.9;
+  animation: fx-flicker 120ms steps(2, end) infinite;
+}
+
+.fx-screen-shake {
+  animation: fx-shake 160ms linear infinite;
+}
+
+
+.fx-crazy-word {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  font-family: 'Space Mono', ui-monospace, monospace;
+  font-size: clamp(44px, 15vw, 84px);
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: rgba(255, 255, 255, 0.08);
+  -webkit-text-stroke: 1px rgba(255, 255, 255, 0.34);
+  text-shadow:
+    3px 0 rgba(255, 0, 85, 0.55),
+    -3px 0 rgba(168, 255, 62, 0.55);
+  animation: fx-glitch-text 260ms steps(2, end) infinite;
+  mix-blend-mode: screen;
+}
+
+.fx-crazy::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(255, 255, 255, 0.05) 0px,
+    rgba(255, 255, 255, 0.05) 2px,
+    transparent 2px,
+    transparent 11px
+  );
+  animation: fx-scan 300ms linear infinite;
+}
+
+
+.fx-model-loading {
+  position: absolute;
+  inset: 0;
+  z-index: 8;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  pointer-events: none;
+  background: radial-gradient(circle at 50% 48%, rgba(10, 10, 15, 0.1), rgba(10, 10, 15, 0.55) 72%);
+}
+
+.fx-loading-bar {
+  position: relative;
+  width: 132px;
+  height: 2px;
+  overflow: hidden;
+  background: rgba(168, 255, 62, 0.14);
+  box-shadow: 0 0 12px rgba(168, 255, 62, 0.18);
+}
+
+.fx-loading-bar span {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 42%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, #a8ff3e, #ff4dc4, transparent);
+  animation: fx-loading-sweep 1.15s ease-in-out infinite;
+}
+
+@keyframes fx-loading-sweep {
+  from {
+    transform: translateX(-120%);
+  }
+  to {
+    transform: translateX(320%);
+  }
+}
+
+/* ------------------------------------------------------------------ *
+ * Header / status
+ * ------------------------------------------------------------------ */
+
+.fx-header {
+  background:
+    linear-gradient(180deg, rgba(14, 14, 22, 0.96), rgba(10, 10, 15, 0.62)),
+    radial-gradient(ellipse at 50% 0%, color-mix(in srgb, var(--mood-emissive) 16%, transparent), transparent 68%);
+  box-shadow: 0 1px 0 rgba(168, 255, 62, 0.16), 0 18px 42px rgba(0, 0, 0, 0.45);
+}
+
+.fx-header-line {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -1px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--mood-emissive), transparent);
+  opacity: 0.6;
+  animation: fx-breathe 2.8s ease-in-out infinite;
+}
+
+.fx-status-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--mood-emissive);
+  box-shadow: 0 0 10px var(--mood-emissive), 0 0 24px var(--mood-emissive);
+  animation: fx-pulse 1.4s ease-in-out infinite;
+}
+
+.fx-status-text {
+  color: #d9ffb0;
+  text-shadow:
+    0 0 6px color-mix(in srgb, var(--mood-emissive) 75%, transparent),
+    0 0 22px color-mix(in srgb, var(--mood-emissive) 42%, transparent);
+  animation: fx-flicker-soft 5s linear infinite;
+}
+
+.fx-icon-btn {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.07), rgba(255, 255, 255, 0.01));
+  border: 1px solid rgba(168, 255, 62, 0.28);
+  box-shadow:
+    inset 0 0 18px rgba(168, 255, 62, 0.06),
+    0 0 18px rgba(168, 255, 62, 0.08);
+  transition: border-color 160ms ease, box-shadow 160ms ease, transform 160ms ease;
+}
+
+.fx-icon-btn::after {
+  content: '';
+  position: absolute;
+  inset: -60% -120%;
+  background: linear-gradient(100deg, transparent 38%, rgba(255, 255, 255, 0.32) 50%, transparent 62%);
+  transform: translateX(-60%) rotate(8deg);
+  animation: fx-sheen 4.2s ease-in-out infinite;
+}
+
+.fx-icon-btn:active {
+  transform: scale(0.94);
+  border-color: var(--mood-emissive);
+  box-shadow: 0 0 26px color-mix(in srgb, var(--mood-emissive) 40%, transparent);
+}
+
+/* ------------------------------------------------------------------ *
+ * HUD
+ * ------------------------------------------------------------------ */
+
+.fx-glass {
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.055), rgba(255, 255, 255, 0.012)),
+    rgba(10, 10, 15, 0.88);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.08),
+    0 -18px 50px rgba(0, 0, 0, 0.4);
+}
+
+.fx-hud {
+  position: relative;
+  border-top: 1px solid color-mix(in srgb, var(--mood-emissive) 55%, transparent);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.035), transparent 34%),
+    rgba(10, 10, 15, 0.96);
+}
+
+.fx-hud::before {
+  content: '';
+  position: absolute;
+  top: -1px;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--mood-emissive), #a8ff3e, transparent);
+  opacity: 0.8;
+  animation: fx-breathe 2.2s ease-in-out infinite;
+}
+
+.fx-pill {
+  position: relative;
+  overflow: hidden;
+  transition: transform 160ms var(--ease-spring), border-color 160ms ease, box-shadow 160ms ease, background-color 160ms ease;
+}
+
+.fx-pill::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(120deg, transparent 30%, rgba(255, 255, 255, 0.28) 50%, transparent 70%);
+  transform: translateX(-120%);
+  transition: transform 420ms ease;
+}
+
+.fx-pill:hover::after {
+  transform: translateX(120%);
+}
+
+.fx-pill:active {
+  transform: scale(0.95);
+}
+
+.fx-pill-active {
+  box-shadow:
+    0 0 10px color-mix(in srgb, var(--mood-emissive) 60%, transparent),
+    0 0 28px color-mix(in srgb, var(--mood-emissive) 26%, transparent),
+    inset 0 0 12px rgba(255, 255, 255, 0.2);
+}
+
+.fx-progress {
+  background-image: linear-gradient(
+    100deg,
+    #a8ff3e 0%,
+    #e6ff9e 22%,
+    #a8ff3e 42%,
+    #7b2fff 70%,
+    #a8ff3e 100%
+  );
+  background-size: 220% 100%;
+  animation: fx-shimmer 2.6s linear infinite;
+  box-shadow: 0 0 8px #a8ff3e, 0 0 20px rgba(168, 255, 62, 0.45);
+}
+
+.fx-action {
+  position: relative;
+  overflow: hidden;
+  transition: transform 160ms var(--ease-spring), border-color 160ms ease, box-shadow 160ms ease, background-color 160ms ease;
+}
+
+.fx-action::after {
+  content: '';
+  position: absolute;
+  inset: -50% -120%;
+  background: linear-gradient(100deg, transparent 40%, rgba(255, 255, 255, 0.18) 50%, transparent 60%);
+  transform: translateX(-70%) rotate(8deg);
+  transition: transform 520ms ease;
+}
+
+.fx-action:hover::after {
+  transform: translateX(70%) rotate(8deg);
+}
+
+.fx-action:active {
+  transform: scale(0.93);
+}
+
+.fx-action-icon {
+  border-color: color-mix(in srgb, var(--mood-emissive) 34%, #3a3a48);
+  background: linear-gradient(160deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.01));
+  box-shadow: inset 0 0 16px rgba(168, 255, 62, 0.05);
+  transition: transform 180ms var(--ease-spring), box-shadow 180ms ease, border-color 180ms ease;
+}
+
+.fx-action:hover .fx-action-icon {
+  transform: translateY(-2px) rotate(-4deg);
+  box-shadow: 0 0 22px color-mix(in srgb, var(--mood-emissive) 35%, transparent);
+}
+
+.fx-hold {
+  background: linear-gradient(90deg, #a8ff3e, #ff4dc4);
+  box-shadow: 0 0 10px #ff4dc4;
+}
+
+/* ------------------------------------------------------------------ *
+ * Sticker panel
+ * ------------------------------------------------------------------ */
+
+.fx-panel {
+  background:
+    radial-gradient(ellipse at 18% 0%, color-mix(in srgb, var(--mood-emissive) 18%, transparent), transparent 42%),
+    radial-gradient(ellipse at 86% 100%, rgba(255, 77, 196, 0.12), transparent 45%),
+    #0a0a0f;
+}
+
+.fx-panel::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image:
+    linear-gradient(to right, rgba(168, 255, 62, 0.08) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(168, 255, 62, 0.06) 1px, transparent 1px);
+  background-size: 52px 52px;
+  mask-image: linear-gradient(to bottom, black, transparent 68%);
+  -webkit-mask-image: linear-gradient(to bottom, black, transparent 68%);
+}
+
+.fx-title {
+  background: linear-gradient(100deg, #eaffc9 0%, #ffffff 34%, #ffb7e5 68%, #c9b6ff 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  filter: drop-shadow(0 0 14px rgba(168, 255, 62, 0.28));
+  background-size: 180% 100%;
+  animation: fx-shimmer 5s linear infinite;
+}
+
+.fx-card {
+  position: relative;
+  overflow: hidden;
+  transition: transform 220ms var(--ease-spring), border-color 220ms ease, box-shadow 220ms ease;
+}
+
+.fx-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(160deg, rgba(255, 255, 255, 0.1), transparent 38%);
+  opacity: 0.6;
+}
+
+.fx-card:hover {
+  transform: translateY(-3px) rotate(-0.4deg);
+  border-color: var(--mood-emissive);
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, var(--mood-emissive) 45%, transparent),
+    0 12px 28px rgba(0, 0, 0, 0.45),
+    0 0 24px color-mix(in srgb, var(--mood-emissive) 16%, transparent);
+}
+
+.fx-card img {
+  transition: transform 380ms var(--ease-spring), filter 380ms ease;
+}
+
+.fx-card:hover img {
+  transform: scale(1.035);
+  filter: saturate(1.15) contrast(1.04);
+}
+
+.fx-badge {
+  animation: fx-pulse 1.8s ease-in-out infinite;
+  box-shadow: 0 0 12px color-mix(in srgb, var(--mood-emissive) 40%, transparent);
+}
+
+.fx-empty {
+  animation: fx-float 4.2s ease-in-out infinite;
+}
+
+.fx-preview {
+  background:
+    radial-gradient(ellipse at 50% 38%, color-mix(in srgb, var(--mood-emissive) 20%, transparent), transparent 56%),
+    rgba(0, 0, 0, 0.92);
+}
+
+.fx-shine {
+  position: relative;
+  overflow: hidden;
+}
+
+.fx-shine::after {
+  content: '';
+  position: absolute;
+  inset: -60% -130%;
+  background: linear-gradient(100deg, transparent 40%, rgba(255, 255, 255, 0.3) 50%, transparent 60%);
+  transform: translateX(-80%) rotate(7deg);
+  animation: fx-sheen 5.5s ease-in-out infinite;
+  pointer-events: none;
+}
+
+.fx-float-slow {
+  animation: fx-float 5.5s ease-in-out infinite;
+}
+
+/* ------------------------------------------------------------------ *
+ * Keyframes
+ * ------------------------------------------------------------------ */
+
+@keyframes fx-drift {
+  0%,
+  100% {
+    transform: translate3d(-4%, 0, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(6%, -4%, 0) scale(1.08);
+  }
+}
+
+@keyframes fx-grid-move {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(46px, 46px, 0);
+  }
+}
+
+@keyframes fx-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes fx-float {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+    opacity: 0.45;
+  }
+  50% {
+    transform: translate3d(0, -16px, 0);
+    opacity: 0.9;
+  }
+}
+
+@keyframes fx-scan {
+  from {
+    background-position-y: 0;
+  }
+  to {
+    background-position-y: 4px;
+  }
+}
+
+@keyframes fx-pulse {
+  0%,
+  100% {
+    opacity: 0.55;
+    transform: scale(0.92);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.08);
+  }
+}
+
+@keyframes fx-breathe {
+  0%,
+  100% {
+    opacity: 0.35;
+  }
+  50% {
+    opacity: 0.9;
+  }
+}
+
+@keyframes fx-shimmer {
+  0% {
+    background-position: 0% 50%;
+  }
+  100% {
+    background-position: 200% 50%;
+  }
+}
+
+@keyframes fx-flicker {
+  0%,
+  100% {
+    opacity: 0.35;
+  }
+  10% {
+    opacity: 0.9;
+  }
+  22% {
+    opacity: 0.2;
+  }
+  34% {
+    opacity: 0.8;
+  }
+  48% {
+    opacity: 0.3;
+  }
+  64% {
+    opacity: 0.95;
+  }
+  78% {
+    opacity: 0.25;
+  }
+}
+
+@keyframes fx-flicker-soft {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  48% {
+    opacity: 1;
+  }
+  49% {
+    opacity: 0.55;
+  }
+  50% {
+    opacity: 1;
+  }
+  72% {
+    opacity: 0.82;
+  }
+  73% {
+    opacity: 1;
+  }
+}
+
+@keyframes fx-sheen {
+  0%,
+  58% {
+    transform: translateX(-80%) rotate(7deg);
+  }
+  78%,
+  100% {
+    transform: translateX(80%) rotate(7deg);
+  }
+}
+
+@keyframes fx-glitch-text {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) skewX(0deg);
+    opacity: 0.65;
+  }
+  28% {
+    transform: translate3d(-5px, 2px, 0) skewX(-4deg);
+    opacity: 1;
+  }
+  52% {
+    transform: translate3d(4px, -2px, 0) skewX(3deg);
+    opacity: 0.45;
+  }
+  76% {
+    transform: translate3d(-2px, 1px, 0) skewX(-2deg);
+    opacity: 0.9;
+  }
+}
+
+@keyframes fx-shake {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+  20% {
+    transform: translate3d(-2px, 1px, 0);
+  }
+  40% {
+    transform: translate3d(2px, -1px, 0);
+  }
+  60% {
+    transform: translate3d(-1px, -2px, 0);
+  }
+  80% {
+    transform: translate3d(1px, 2px, 0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
