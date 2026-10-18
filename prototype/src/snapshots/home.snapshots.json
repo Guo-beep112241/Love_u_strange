@@ -1,0 +1,63 @@
+{
+  "page": "home",
+  "snapshots": [
+    {
+      "id": "home-baseline",
+      "name": "Default Interaction Mode",
+      "purpose": "Baseline state with pet in neutral interaction mode, default slump mood, no stickers, normal mode active.",
+      "priority": "p0",
+      "state": {
+        "mood": "slump",
+        "viewMode": "interaction",
+        "crazyMode": false,
+        "moodValue": 50,
+        "stickers": []
+      }
+    },
+    {
+      "id": "home-sticker-panel",
+      "name": "Sticker Collection View",
+      "purpose": "Pet in stickers view mode with a few sample stickers collected. Shows viewMode branch and non-empty stickers collection.",
+      "priority": "p1",
+      "state": {
+        "viewMode": "stickers",
+        "stickers": [
+          {
+            "id": "s_sample_1",
+            "dataUrl": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==",
+            "mood": "crazy",
+            "createdAt": 1000000000
+          },
+          {
+            "id": "s_sample_2",
+            "dataUrl": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==",
+            "mood": "slump",
+            "createdAt": 1000000001
+          }
+        ]
+      }
+    },
+    {
+      "id": "home-crazy-mode",
+      "name": "Crazy Mode Active",
+      "purpose": "Pet triggered into crazy mode with elevated mood value. Shows alternate pet behavior and HUD feedback state.",
+      "priority": "p1",
+      "state": {
+        "mood": "crazy",
+        "crazyMode": true,
+        "moodValue": 100
+      }
+    },
+    {
+      "id": "home-different-mood",
+      "name": "Breakdown Mood",
+      "purpose": "Pet in breakdown mood state. Shows mood branch affecting top status bar message and pet visual/behavior.",
+      "priority": "p1",
+      "state": {
+        "mood": "breakdown",
+        "moodValue": 20
+      }
+    }
+  ],
+  "_zkStateBundleSha256": "948798a2373fb9e553befc5dff031301f80f936f48440a7be544bf5c42e5c8e1"
+}

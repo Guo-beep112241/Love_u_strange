@@ -1,0 +1,7 @@
+{
+  "visual_direction_raw": "Direction B — 荧光发疯丑萌\nFeel: 精神状态不稳定的发光生物，随时可能崩掉也随时可能暴走；丑萌而非恐怖，有点像蛋黄哥的发疯版\nColor: 深纯黑底 #0a0a0f / 酸性荧光绿 #a8ff3e / 脏紫 #7b2fff / 白噪点 / 毒粉 #ff4dc4\nTexture: 半透明果冻质感，内部隐约发光器官轮廓，UI层细密噪点颗粒，边缘Bloom外溢\nMotion: idle缓慢膨胀收缩+微颤；点击弹簧抖动；长按发疯模式颜色跳变+全屏色差扫描\nLayout: 全屏纯黑，宠物居中78%屏高，底部HUD浮层22%",
+  "pages_raw": "主互动屏（3D宠物+情绪HUD）；右滑贴纸导出面板（情绪贴纸网格+导出操作）",
+  "navigation_raw": "无tabbar；右滑手势进出贴纸面板；底部三按钮（戳一戳/喂食/发疯）；5种情绪药丸切换",
+  "frozen_structure": "两屏结构。主屏：顶部情绪状态文字标签（1行）+ 主区域R3F Canvas（78%高度，全宽）+ 底部HUD（22%高度，含情绪药丸+进度条+三按钮）。贴纸面板：CSS translateX右滑进入，顶部返回+标题，主操作按钮，2列贴纸网格，底部说明。手势右滑切换两屏。宠物程序化几何体，MeshPhysicalMaterial果冻质感，情绪驱动颜色变化，Bloom+ChromaticAberration后处理。",
+  "wireframe_resource_id": "image-0ekA"
+}

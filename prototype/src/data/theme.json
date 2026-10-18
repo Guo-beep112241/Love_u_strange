@@ -1,0 +1,204 @@
+{
+  "colors": {
+    "brand-primary": "hsl(258 83% 58%)",
+    "brand-accent": "hsl(79 100% 62%)",
+    "brand-toxic": "hsl(320 100% 65%)",
+    "brand-grime": "hsl(262 100% 59%)",
+    "surface-base": "hsl(240 20% 5%)",
+    "surface-raised": "hsl(0 0% 100%)",
+    "surface-glass-dark": "hsl(240 10% 8%)",
+    "surface-panel": "hsl(240 10% 12%)",
+    "text-primary": "hsl(0 0% 100%)",
+    "text-primary-dark": "hsl(240 20% 5%)",
+    "text-muted": "hsl(240 5% 60%)",
+    "text-accent": "hsl(79 100% 62%)",
+    "border-subtle": "hsl(240 10% 20%)",
+    "border-strong": "hsl(79 100% 62%)",
+    "border-toxic": "hsl(320 100% 65%)",
+    "status-success": "hsl(79 100% 62%)",
+    "status-warning": "hsl(30 100% 60%)",
+    "status-error": "hsl(320 100% 65%)",
+    "focus-ring-default": "hsl(79 100% 62%)"
+  },
+  "fontSize": {
+    "caption": [
+      "11px",
+      {
+        "lineHeight": "1.3",
+        "letterSpacing": "0.05em"
+      }
+    ],
+    "body": [
+      "14px",
+      {
+        "lineHeight": "1.5",
+        "letterSpacing": "0em"
+      }
+    ],
+    "body-lg": [
+      "19px",
+      {
+        "lineHeight": "1.4",
+        "letterSpacing": "-0.01em"
+      }
+    ],
+    "h3": [
+      "25px",
+      {
+        "lineHeight": "1.2",
+        "letterSpacing": "-0.02em",
+        "fontWeight": "700"
+      }
+    ],
+    "h2": [
+      "33px",
+      {
+        "lineHeight": "1.1",
+        "letterSpacing": "-0.02em",
+        "fontWeight": "700"
+      }
+    ],
+    "h1": [
+      "44px",
+      {
+        "lineHeight": "1.0",
+        "letterSpacing": "-0.04em",
+        "fontWeight": "700"
+      }
+    ],
+    "display": [
+      "78px",
+      {
+        "lineHeight": "0.95",
+        "letterSpacing": "-0.06em",
+        "fontWeight": "700"
+      }
+    ]
+  },
+  "fontFamily": {
+    "display": [
+      "Space Mono",
+      "ui-monospace",
+      "SFMono-Regular",
+      "Menlo",
+      "monospace"
+    ],
+    "body": [
+      "Space Grotesk",
+      "ui-sans-serif",
+      "system-ui",
+      "sans-serif"
+    ],
+    "zh": [
+      "Cubic11",
+      "ui-monospace",
+      "SFMono-Regular",
+      "Menlo",
+      "monospace"
+    ],
+    "_zh_source": {
+      "provider": "emfont",
+      "fontId": "Cubic11",
+      "css_url": "https://font.emtech.cc/css/Cubic11",
+      "weight_url": "https://font.emtech.cc/css/Cubic11/400",
+      "license": "SIL Open Font License 1.1",
+      "weights_used": [
+        400
+      ],
+      "rationale": "像素风格等宽字体，配合Neo-Brutalism和Glitch酸性风格，制造系统损坏和随意的复古机器感。"
+    }
+  },
+  "spacing": {
+    "micro": "2px",
+    "tight": "4px",
+    "snug": "6px",
+    "base": "8px",
+    "comfortable": "12px",
+    "loose": "16px",
+    "section": "32px",
+    "section-y": "48px",
+    "macro": "64px",
+    "stack-sm": "12px",
+    "stack-md": "16px",
+    "stack-lg": "32px"
+  },
+  "borderRadius": {
+    "none": "0px",
+    "sm": "0px",
+    "md": "0px",
+    "lg": "0px",
+    "full": "0px"
+  },
+  "boxShadow": {
+    "none": "0 0 0 0 rgba(0, 0, 0, 0)",
+    "sm": "2px 2px 0 0 hsl(79 100% 62%)",
+    "md": "4px 4px 0 0 hsl(79 100% 62%)",
+    "lg": "8px 8px 0 0 hsl(320 100% 65%)",
+    "xl": "12px 12px 0 0 hsl(262 100% 59%)"
+  },
+  "layoutMode": "EDITORIAL",
+  "_type_scale_ratio": {
+    "ratio": 1.333,
+    "ratio_name": "Perfect Fourth",
+    "body_px": 14,
+    "steps": {
+      "caption": -1,
+      "body": 0,
+      "body-lg": 1,
+      "h3": 2,
+      "h2": 3,
+      "h1": 4,
+      "display": 6
+    },
+    "rounded_px": {
+      "caption": 11,
+      "body": 14,
+      "body-lg": 19,
+      "h3": 25,
+      "h2": 33,
+      "h1": 44,
+      "display": 78
+    },
+    "notes": "1.333跨度带来更强烈的排版冲突。基础字号设定为14px，腾出屏幕空间留给视觉主体。标题字跨度跳跃大，用于显示情绪词汇的压抑感。"
+  },
+  "_spacing_rhythm": {
+    "base_px": 4,
+    "allowed_multipliers": [
+      0.5,
+      1,
+      1.5,
+      2,
+      3,
+      4,
+      8,
+      12,
+      16
+    ],
+    "tokens": {
+      "spacing-micro": 2,
+      "spacing-tight": 4,
+      "spacing-snug": 6,
+      "spacing-base": 8,
+      "spacing-comfortable": 12,
+      "spacing-loose": 16,
+      "spacing-section": 32,
+      "spacing-section-y": 48,
+      "spacing-macro": 64,
+      "spacing-stack-sm": 12,
+      "spacing-stack-md": 16,
+      "spacing-stack-lg": 32
+    }
+  },
+  "_pre_emit_scores": {
+    "P": 5,
+    "H": 5,
+    "E": 5,
+    "S": 5,
+    "R": 5,
+    "V": 5,
+    "R_prime": 5,
+    "mean": 5,
+    "attempts": 1,
+    "notes": "完全摒弃普通iOS风格。排版选择了4px基数，以等宽字体与像素体呈现粗糙、错位的机械感。配色采用荧光酸性叠加绝对死寂的纯黑底色，实心偏移阴影及0px直角。无伪装系统状态栏，严格遵照排版尺度规则。"
+  }
+}
